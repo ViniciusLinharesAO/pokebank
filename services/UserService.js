@@ -1,4 +1,5 @@
 const { User } = require('./../app/models');
+const bcrypt = require('bcryptjs');
 
 class UserService {
 
@@ -18,7 +19,10 @@ class UserService {
 
   async createUser(payload) {
     console.log(`criando o usuario = ${payload}`);
-    return await User.create(payload);
+    const salt = bcrypt.genSaltSync(10);
+    payload.password = bcrypt.hashSync(payload.password, salt);
+    console.log(payload);
+    return await User.create( payload );
   }
 
   async editUser(id, payload) {
