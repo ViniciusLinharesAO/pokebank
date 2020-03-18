@@ -22,10 +22,14 @@ defina qual database você está usando com:
 
 MariaDB [(none)]> USE crud_sequelize;
 
-saia da intercafe do mysql com ctrl+C, saia do bash do container com 'exit' e volte para a pasta root do projeto, feito isso rode a migrate com:
+saia da intercafe do mysql com ctrl+C, saia do bash do container com 'exit' e volte para a pasta root do projeto, feito isso instale as dependências com:
+
+$ npm i
+
+daí rode a migrate com:
 
 $ npx sequelize db:migrate
 
-pronto, agora é só rodar o projeto com:
+e pronto, agora é só rodar o projeto com:
 
 $ node index.js

@@ -13,7 +13,7 @@ class UserController {
   }
 
   async getOneUser(req, res) {
-    UserService.getOneUser(req)
+    UserService.getOneUser(req.params.id)
       .then((response) => {
         res.json(response);
       })
@@ -23,7 +23,7 @@ class UserController {
   }
 
   async createUser(req, res) {
-    UserService.createUser(req)
+    UserService.createUser(req.body)
       .then((response) => {
         res.json(response);
       })
@@ -33,9 +33,9 @@ class UserController {
   }
 
   async editUser(req, res) {
-    UserService.editUser(req)
+    UserService.editUser(req.params.id, req.body)
       .then((response) => {
-        response[0] === 1 ? res.json('alteração aplicada') : res.json('alteração não aplicada');
+        response ? res.json('alteração aplicada') : res.json('alteração não aplicada');
       })
       .catch(err => {
         throw new Error(err);
@@ -43,7 +43,7 @@ class UserController {
   }
 
   async deleteUser(req, res) {
-    UserService.deleteUser(req)
+    UserService.deleteUser(req.params.id)
       .then((response) => {
         response ? res.json('deleção aplicada') : res.json('deleção não aplicada');
       })
