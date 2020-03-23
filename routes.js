@@ -1,12 +1,11 @@
 const { Router } = require('express');
 const UserController = require('./controllers/UserController');
-const SessionService = require('./services/SessionService');
 const verifyToken = require('./controllers/VerifyToken');
+const SessionController = require('./controllers/SessionController');
 
 const routes = Router();
 
-routes.post('/user/login', SessionService.login);
-
+routes.post('/login', SessionController.login)
 // payload example:
 // { name: 'vini', email: 'vini@vini.com', password: '1234' }
 routes.post('/user', UserController.createUser);

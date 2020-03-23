@@ -21,12 +21,14 @@ class UserService {
     console.log(`criando o usuario = ${payload}`);
     const salt = bcrypt.genSaltSync(10);
     payload.password = bcrypt.hashSync(payload.password, salt);
-    console.log(payload);
+
     return await User.create( payload );
   }
 
   async editUser(id, payload) {
     console.log(`editando o usuario de id = ${id}`);
+    const salt = bcrypt.genSaltSync(10);
+    payload.password = bcrypt.hashSync(payload.password, salt);
     const result = await User.update(
       payload, {
       where: {

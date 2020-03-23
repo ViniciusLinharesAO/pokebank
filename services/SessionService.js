@@ -2,35 +2,31 @@ const { User } = require('./../app/models');
 require('dotenv-safe').config();
 const secret = process.env.SECRET;
 const bcrypt = require('bcryptjs');
+const jwt = require('jsonwebtoken');
 
 class SessionService {
-    async login(req, res) {
-        try{
-        const { email, password } = req.body;
-        const userExist = User.findOne({
+    async login(payload) {
+        const userExist = await User.findOne({
             where: {
-                email: email
+                email: payload.email
             }
         });
 
         if(!userExist){
-            res.status(500).send({ error: 'User do not exist'});
+            return ({ error: 'User do not exist'});
         }
 
-        const resultPassword = bcrypt.compare(password, userExist.password);
+        const resultPassword = await bcrypt.compare(payload.password, userExist.password);
 
         if(userExist && !resultPassword){
-            res.status(400).send({ error: 'Password invalid! '});
+            return ({ error: 'Password invalid! '});
         }
         if(userExist && resultPassword){
             const id = userExist.id;
             const token = jwt.sign({ id }, secret, {
-                expiresIn: '1d' 
+                expiresIn: '1d'
             });
-            res.status(200).send({ auth: true, token: token });
-        }
-    }catch(err) {
-        res.status(500).send({ err: 'Login Inválido!'});
+            return ({ auth: true, token: token });
         }
     }
 }

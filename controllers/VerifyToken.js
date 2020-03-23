@@ -1,8 +1,10 @@
 const jwt = require('jsonwebtoken');
+require('dotenv-safe').config();
 const secret = process.env.SECRET;
 
 const verifyToken = function (req, res, next) {
     let token = req.headers['x-acess-token'];
+    console.log(secret);
     if(!token) return res.status(401).send({ auth: false, message: 'No token provided'});
     
     jwt.verify(token, secret, function(err, decoded) {
